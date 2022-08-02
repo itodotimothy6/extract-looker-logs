@@ -11,7 +11,8 @@ A Python script that extracts Looker system/audit logs from [System Activity](ht
 
 - Clone the repo
   ```
-  clone then cd into it
+  git clone https://github.com/itodotimothy6/extract-looker-logs.git
+  cd extract-looker-logs/
   ```
 
 - Install dependencies 
