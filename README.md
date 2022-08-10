@@ -3,9 +3,9 @@
 A Python script that extracts Looker system/audit logs from [System Activity](https://docs.looker.com/admin-options/system-activity) and exports the Logs to Cloud Logging. This example tries to format the output logs like a [GCP Audit Log](https://cloud.google.com/logging/docs/audit/understanding-audit-logs) as best as possible. See [mapping](#gcp-audit-log-fields-to-looker-system-activity-mapping) for comparison between Looker System Activity Fields and GCP Audit Log Fields
 
 ## Requirements
-- Looker Instance in which you have Admin or `see_system_acitvity` permission
+- Looker Instance in which you have Admin or `see_system_activity` permission
 - Google Cloud Project with Cloud Logging API enabled
-- [Python 3.6+](https://github.com/looker-open-source/sdk-codegen/tree/main/python#sample-project-setup) which is required by the Python Looker SDk
+- [pyenv](https://github.com/pyenv/pyenv#installation) installed
 
 ## Deployment
 
@@ -15,11 +15,19 @@ A Python script that extracts Looker system/audit logs from [System Activity](ht
   cd extract-looker-logs/
   ```
 
+- Setup Python Virtual environment 
+  ```
+  pyenv install 3.8.2
+  pyenv local 3.8.2
+  python -m venv .venv
+  ```
+
 - Install dependencies 
   ```
   pip install looker-sdk
   pip install --upgrade google-cloud-logging
   ```
+
 
 - Create API credentials and set environment variables
   ```
@@ -31,12 +39,12 @@ A Python script that extracts Looker system/audit logs from [System Activity](ht
 - Configure gcloud and [setup service account](https://cloud.google.com/logging/docs/reference/libraries#setting_up_authentication) to write Logs to Cloud Logging
   ```
   gcloud config set project <Project ID>
-  export GOOGLE_APPLICATION_CREDENTIALS="Service Account Key Path"
+  export GOOGLE_APPLICATION_CREDENTIALS="<Service Account Key Path>"
   ```
 
 - Run `main.py`
   ```
-  python3 main.py
+  python main.py
   ```
 
 

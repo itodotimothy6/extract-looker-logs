@@ -6,7 +6,7 @@ from looker_sdk import models40 as models
 
 from google.cloud import logging
 
-sdk = looker_sdk.init40('./looker.ini')
+sdk = looker_sdk.init40()
 
 
 def create_query():
