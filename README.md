@@ -9,17 +9,30 @@ A Python script that extracts Looker system/audit logs from [System Activity](ht
 
 ## Deployment
 
+- Create [Looker API credentials](https://docs.looker.com/reference/api-and-integration/api-auth) and set the below environment variables
+  ```
+  export LOOKERSDK_BASE_URL="<Your API URL>"
+  export LOOKERSDK_CLIENT_ID="<Your Client ID>"
+  export LOOKERSDK_CLIENT_SECRET="<Your Client Secret>"
+  ```
+
+- Create and configure a [service account](https://cloud.google.com/logging/docs/reference/libraries#setting_up_authentication) to write log entries to Cloud Logging and download the keys
+  ```
+  export GOOGLE_APPLICATION_CREDENTIALS="<Service Account Key Path>"
+  ```
+
 - Clone the repo
   ```
   git clone https://github.com/itodotimothy6/extract-looker-logs.git
   cd extract-looker-logs/
   ```
-
-- Setup Python Virtual environment 
+  
+- Setup python virtual environment 
   ```
   pyenv install 3.8.2
   pyenv local 3.8.2
   python -m venv .venv
+  source .venv/bin/activate
   ```
 
 - Install dependencies 
@@ -28,19 +41,6 @@ A Python script that extracts Looker system/audit logs from [System Activity](ht
   pip install --upgrade google-cloud-logging
   ```
 
-
-- Create API credentials and set environment variables
-  ```
-  export LOOKERSDK_BASE_URL="<Your API URL>"
-  export LOOKERSDK_CLIENT_ID="<Your Client ID>"
-  export LOOKERSDK_CLIENT_SECRET="<Your Client Secret>"
-  ```
-
-- Configure gcloud and [setup service account](https://cloud.google.com/logging/docs/reference/libraries#setting_up_authentication) to write Logs to Cloud Logging
-  ```
-  gcloud config set project <Project ID>
-  export GOOGLE_APPLICATION_CREDENTIALS="<Service Account Key Path>"
-  ```
 
 - Run `main.py`
   ```
