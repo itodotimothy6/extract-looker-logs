@@ -1,6 +1,8 @@
 ## Overview
 
-A Python script that extracts Looker system/audit logs from [System Activity](https://docs.looker.com/admin-options/system-activity) and exports the Logs to Cloud Logging. This example tries to format the output logs like a [GCP Audit Log](https://cloud.google.com/logging/docs/audit/understanding-audit-logs) as best as possible. See [mapping](#gcp-audit-log-fields-to-looker-system-activity-mapping) for comparison between Looker System Activity Fields and GCP Audit Log Fields
+A Python script that extracts [System Activity](https://docs.looker.com/admin-options/system-activity) data from the last 10 minutes, formats the data as Audit Logs, and exports the logs to Cloud Logging. The data formatting/mapping is best effort. See [data mapping](#gcp-audit-log-fields-to-looker-system-activity-mapping) below.
+
+**_NOTE:_**  You can schedule this script to run every 10 minutes using a cron job or equivalent to continually create and export logs.
 
 ## Requirements
 - Looker Instance in which you have Admin or `see_system_activity` permission
@@ -38,7 +40,7 @@ A Python script that extracts Looker system/audit logs from [System Activity](ht
 - Install dependencies 
   ```
   pip install looker-sdk
-  pip install --upgrade google-cloud-logging
+  pip install google-cloud-logging
   ```
 
 
@@ -50,11 +52,10 @@ A Python script that extracts Looker system/audit logs from [System Activity](ht
 
 ## GCP Audit Log Fields to Looker System Activity Mapping
 
-| GCP Audit Log Field       | Looker System Actvity Field |
+| GCP Audit Log Field       | Looker System Actvity Field or Value|
 | -----------               | -----------                 |
 | [logName](https://cloud.google.com/logging/docs/reference/v2/rest/v2/LogEntry#:~:text=Fields-,logName,-string) | `looker_system_activity_logs` |
 | [timestamp](https://cloud.google.com/logging/docs/reference/v2/rest/v2/LogEntry#:~:text=reported%20the%20error.-,timestamp,-string) | [event.created](https://docs.looker.com/admin-options/tutorials/events#:~:text=for%20example%2C%20create_dashboard-,created,-Date%20and%20time) |
-| [resource.type](https://cloud.google.com/logging/docs/reference/v2/rest/v2/MonitoredResource#:~:text=Fields-,type,-string)  | `looker_system_activity_logs`  |
 | [resource.type](https://cloud.google.com/logging/docs/reference/v2/rest/v2/MonitoredResource#:~:text=Fields-,type,-string)  | `looker_system_activity_logs`  |
 | [insertId](https://cloud.google.com/logging/docs/reference/v2/rest/v2/LogEntry#:~:text=is%20LogSeverity.DEFAULT.-,insertid,-string)  | [event.id](https://docs.looker.com/admin-options/tutorials/events#:~:text=Description-,id,-Unique%20numeric%20identifier)  |
 | `protoPayload.status` | [event.attribute.status](https://docs.looker.com/admin-options/tutorials/events#:~:text=Trigger-,Attributes,-add_external_email_to_scheduled_task) |
