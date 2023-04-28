@@ -107,7 +107,7 @@ gcloud secrets create "looker_client_secret" \
 - Clone this repository to a local path:
 
 ```
-git clone https://github.com/elpeme/extract-looker-logs.git
+git clone https://github.com/itodotimothy6/extract-looker-logs.git
 cd extract-looker-logs
 ```
 - Create the Cloud Function with source as the local path:
