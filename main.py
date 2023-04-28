@@ -1,7 +1,6 @@
 import os
 import json
 from collections import defaultdict
-from google.cloud import secretmanager
 
 import looker_sdk
 from looker_sdk import models40 as models
@@ -211,7 +210,7 @@ class MyApiSettings(api_settings.ApiSettings):
 
 sdk = looker_sdk.init40(config_settings=MyApiSettings(my_var="looker"))
 
-def looker_collector_function(request):
+def looker_collector_function(event, context):
     data = get_looker_data()
     agg_data = group_all(data)
     formatted_data = format(agg_data)
