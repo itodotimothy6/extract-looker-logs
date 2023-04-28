@@ -1,13 +1,12 @@
+import os
 import json
 from collections import defaultdict
+from google.cloud import secretmanager
 
 import looker_sdk
 from looker_sdk import models40 as models
-
+from looker_sdk import api_settings
 from google.cloud import logging
-
-sdk = looker_sdk.init40()
-
 
 def create_query():
     response = sdk.create_query(
@@ -196,8 +195,25 @@ def write_log_entry(formatted_data):
     print("Wrote logs to {}.".format(logger.name))
 
 
-if __name__ == "__main__":
+class MyApiSettings(api_settings.ApiSettings):
+    def __init__(self, *args, **kw_args):
+        self.my_var = kw_args.pop("my_var")
+        super().__init__(*args, **kw_args)
+
+    def read_config(self) -> api_settings.SettingsConfig:
+        config = super().read_config()
+
+        config["base_url"] = os.environ.get('LOOKERSDK_BASE_URL', 'Specified environment variable is not set.')
+        config["client_id"] = os.environ['LOOKERSDK_CLIENT_ID'].strip()
+        config["client_secret"] = os.environ.get('LOOKERSDK_CLIENT_SECRET', 'Specified environment variable is not set.').strip()
+
+        return config
+
+sdk = looker_sdk.init40(config_settings=MyApiSettings(my_var="looker"))
+
+def main_collector(request):
     data = get_looker_data()
     agg_data = group_all(data)
     formatted_data = format(agg_data)
     write_log_entry(formatted_data)
+    return("ran script succesful")
