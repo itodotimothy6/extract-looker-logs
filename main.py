@@ -210,7 +210,7 @@ class MyApiSettings(api_settings.ApiSettings):
 
 sdk = looker_sdk.init40(config_settings=MyApiSettings(my_var="looker"))
 
-def looker_collector_function(event, context):
+def looker_collector_main(event, context):
     data = get_looker_data()
     agg_data = group_all(data)
     formatted_data = format(agg_data)
