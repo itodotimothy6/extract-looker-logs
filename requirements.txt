@@ -1,0 +1,3 @@
+looker-sdk
+google-cloud-logging
+google-cloud-secret-manager
